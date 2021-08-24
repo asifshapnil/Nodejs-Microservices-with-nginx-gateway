@@ -18,12 +18,19 @@ services:
             - "80:80"
         volumes: 
              - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    eureka-server:
+        image: quickbooks2018/eureka-server
+        container_name: ms_eurekaserver
+        hostname: eureka-server
+        ports:
+            - "8761:8761"
     users: 
         build: ./users
         container_name: ms_users
         depends_on:
             - "rabbitmq"
             - "mongo"
+            - "eureka-server"
         volumes: 
             - "./users:/src/app"
         working_dir: "/src/app"
